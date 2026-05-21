@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista 1 Exercício 1</title>
+</head>
+<body>
+
+    <form action="/classificar" method="post">
+
+        <label for="nota">Digite sua nota:</label> <br>
+        <input type="text" name="nota1" id="nota1 " value = "<%= valores.nota1 %>"> <br>
+         <input type="text" name="nota2" id="nota2" value ="<%= valores.nota2 %>"> <br>
+        <button type="submit">Classificar</button>
+
+    </form>
+    <%
+
+        if(retorno){
+            %>
+            <h2>nota final: <%= retorno.notafinal %></h2>
+             <h2>nota final: <%= retorno.media %></h2>
+            <%
+        }else{
+            %>
+            <h2>Não temos retorno</h2>
+            <%
+        }
+
+
+    %>
+
+</body>
+</html>
