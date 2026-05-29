@@ -1,40 +1,75 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res)=>{
-    res.render("pages/index",{"retorno":null,"valores":{"nota":""}});
+router.get("/", (req, res) => {
+    res.render("pages/index", {
+        retorno: null,
+        valores: {
+            nota1: "",
+            nota2: ""
+        }
+    });
 });
 
+router.post("/classificar", (req, res) => {
 
-router.post("/classificar", (req, res)=>{
+    // recuperar notas
+    let nota1 = parseFloat(req.body.nota1);
+    let nota2 = parseFloat(req.body.nota2);
 
-    //recuperar a nota1do nadador
-    let nota1= parseInt(req.body.nota1);
-    let nota2= parseInt(req.body.nota2);
+    // VALIDAÇÃO
+    if (
+        isNaN(nota1) ||
+        isNaN(nota2) ||
+        nota1 < 0 || nota1 > 10 ||
+        nota2 < 0 || nota2 > 10
+    ) {
 
-let media = (nota1 + nota2) / 2
-    //manipular os dados -> classificar
-    if(media> 9 && media<=10 ){
-        var notafinal = "A";
-    }else if(media> 7.5 && media<=9 ){
-        var notafinal = "B";
-    }else if(media> 6 && media<=7.5 ){
-        var notafinal = "C";
-    }else if(media> 4 && media<=6 ){
-        var notafinal = "D";
-    }else if(media>0 && media <= 4 ){
-        var notafinal = "E";
-    }else{
-        var notafinal = "nota não classificada";
+        return res.render("pages/index", {
+            retorno: {
+                erro: "Digite notas válidas entre 0 e 10"
+            },
+            valores: {
+                nota1: req.body.nota1,
+                nota2: req.body.nota2
+            }
+        });
     }
 
-    //formatação 
-    let objJson = {"notafinal":notafinal,"media":media};
+    // calcular média
+    let media = (nota1 + nota2) / 2;
 
-    //envio dos dados para mescalr com o HTML
-    res.render("pages/index",{"retorno":objJson,"valores":{"nota":req.body.nota}})
+    // classificar
+    let notafinal;
 
+    if (media > 9 && media <= 10) {
+        notafinal = "A";
+    } else if (media > 7.5 && media <= 9) {
+        notafinal = "B";
+    } else if (media > 6 && media <= 7.5) {
+        notafinal = "C";
+    } else if (media > 4 && media <= 6) {
+        notafinal = "D";
+    } else if (media >= 0 && media <= 4) {
+        notafinal = "E";
+    } else {
+        notafinal = "Não classificada";
+    }
+
+    // objeto
+    let objJson = {
+        notafinal,
+        media
+    };
+
+    // renderizar
+    res.render("pages/index", {
+        retorno: objJson,
+        valores: {
+            nota1: req.body.nota1,
+            nota2: req.body.nota2
+        }
+    });
 });
-
 
 module.exports = router;
