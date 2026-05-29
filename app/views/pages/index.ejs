@@ -1,35 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista 1 Exercício 1</title>
+    <title>Classificação</title>
 </head>
 <body>
 
     <form action="/classificar" method="post">
 
-        <label for="nota">Digite sua nota:</label> <br>
-        <input type="text" name="nota1" id="nota1 " value = "<%= valores.nota1 %>"> <br>
-         <input type="text" name="nota2" id="nota2" value ="<%= valores.nota2 %>"> <br>
+        <label>Digite a nota 1:</label><br>
+        <input type="text" name="nota1" value="<%= valores.nota1 %>">
+        <br><br>
+
+        <label>Digite a nota 2:</label><br>
+        <input type="text" name="nota2" value="<%= valores.nota2 %>">
+        <br><br>
+
         <button type="submit">Classificar</button>
 
     </form>
-    <%
 
-        if(retorno){
-            %>
-            <h2>nota final: <%= retorno.notafinal %></h2>
-             <h2>nota final: <%= retorno.media %></h2>
-            <%
-        }else{
-            %>
-            <h2>Não temos retorno</h2>
-            <%
-        }
+    <% if(retorno){ %>
 
+        <% if(retorno.erro){ %>
 
-    %>
+            <h2 style="color:red;">
+                <%= retorno.erro %>
+            </h2>
+
+        <% } else { %>
+
+            <h2>Nota final: <%= retorno.notafinal %></h2>
+
+            <h2>Média: <%= retorno.media %></h2>
+
+        <% } %>
+
+    <% } else { %>
+
+        <h2>Não temos retorno</h2>
+
+    <% } %>
 
 </body>
 </html>
